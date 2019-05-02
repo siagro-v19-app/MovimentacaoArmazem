@@ -1,0 +1,441 @@
+<mvc:View xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	controllerName="br.com.idxtecMovimentacaoArmazem.controller.FormAddEdit"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:t="sap.ui.table"
+	xmlns:f="sap.ui.layout.form"
+	displayBlock="false">
+	<Page showHeader="false">
+		<content>
+			<TabContainer id="tabMov" class="sapUiSmallMargin">
+				<items>
+					<TabContainerItem name="Dados Cadastrais">
+						<content>
+							<VBox class="sapUiSmallMargin">
+								<f:SimpleForm id="formMovimentacao"
+									title="{viewModel>/tituloPagina}"
+									editable="true"
+									layout="ResponsiveGridLayout"
+									labelSpanXL="4"
+									labelSpanL="4"
+									labelSpanM="4"
+									labelSpanS="12"
+									adjustLabelSpan="false"
+									emptySpanXL="0"
+									emptySpanL="0"
+									emptySpanM="0"
+									emptySpanS="0"
+									columnsXL="3"
+									columnsL="2"
+									columnsM="2"
+									singleContainerFullSize="false">
+									<f:content>
+										<core:Title/>
+										<Label text="Operação" labelFor="operacao" required="true"/>
+										<Select id="operacao" selectedKey="{movModel>/Operacao}">
+											<core:Item key="EXPEDICAO" text="EXPEDIÇÃO"/>
+											<core:Item key="RECEPCAO" text="RECEPÇÃO"/>
+										</Select>
+										
+										<Label text="Produto" labelFor="produto"/>
+										<Input selectedKey="{path: 'movModel>/Produto', type: 'sap.ui.model.odata.type.Int32'}"
+											textFormatMode="KeyValue"
+											showSuggestion="true"
+											showValueHelp="true"
+											valueHelpRequest="handleSearchProduto"
+											suggestionItems="{
+												path: '/Produtos'
+											}"
+											id="produto"
+											required="true"
+											change="formChanges">
+											<suggestionItems>
+												<core:ListItem key="{Id}" text="{Descricao}"/>
+											</suggestionItems>
+										</Input>
+										
+										<Label text="Lote" labelFor="lote"/>
+										<Input selectedKey="{path: 'movModel>/Lote', type: 'sap.ui.model.odata.type.Int32'}"
+											textFormatMode="KeyValue"
+											showSuggestion="true"
+											showValueHelp="true"
+											valueHelpRequest="handleSearchLote"
+											suggestionItems="{
+												path: '/LoteArmazenagems'
+											}"
+											id="lote"
+											required="true">
+											<suggestionItems>
+												<core:ListItem key="{Id}" text="{Descricao}"/>
+											</suggestionItems>
+										</Input>
+										
+										<Label text="Parceiro de Negócio" labelFor="parceironegocio"/>
+										<Input selectedKey="{path: 'movModel>/Parceiro', type: 'sap.ui.model.odata.type.Int32'}"
+											textFormatMode="KeyValue"
+											showSuggestion="true"
+											showValueHelp="true"
+											valueHelpRequest="handleSearchParceiro"
+											suggestionItems="{
+												path: '/ParceiroNegocios'
+											}"
+											id="parceironegocio"
+											required="true">
+											<suggestionItems>
+												<core:ListItem key="{Id}" text="{RazaoSocial}"/>
+											</suggestionItems>
+										</Input>
+					                    
+					                    <Label text="Motorista" labelFor="motorista"/>
+										<Input selectedKey="{path: 'movModel>/Motorista', type: 'sap.ui.model.odata.type.Int32'}"
+											textFormatMode="KeyValue"
+											showSuggestion="true"
+											showValueHelp="true"
+											valueHelpRequest="handleSearchMotorista"
+											suggestionItems="{
+												path: '/Motoristas'
+											}"
+											id="motorista"
+											required="true">
+											<suggestionItems>
+												<core:ListItem key="{Id}" text="{Nome}"/>
+											</suggestionItems>
+										</Input>
+										
+										<Label text="Veículo" labelFor="veiculo"/>
+										<Input selectedKey="{path: 'movModel>/Veiculo', type: 'sap.ui.model.odata.type.Int32'}"
+											textFormatMode="KeyValue"
+											showSuggestion="true"
+											showValueHelp="true"
+											valueHelpRequest="handleSearchVeiculo"
+											suggestionItems="{
+												path: '/Veiculos'
+											}"
+											id="veiculo"
+											required="true">
+											<suggestionItems>
+												<core:ListItem key="{Id}" text="{Placa}"/>
+											</suggestionItems>
+										</Input>
+										
+										<Label text="Data" labelFor="data" required="true"/>
+										<DatePicker id="data" dateValue="{movModel>/Data}"
+											displayFormat="dd.MM.yyyy" placeholder="dd.mm.aaaa"/>
+										
+					                    <Label text="Tara" labelFor="tara"/>
+										<Input id="tara" value="{path: 'movModel>/Tara', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"
+					                            required="true"
+					                            />
+					                    
+					                    <Label text="Data/Hora - Tara" labelFor="datahoratara" required="true"/>
+										<DatePicker id="datahoratara" dateValue="{movModel>/DataHoraTara}"
+											displayFormat="dd.MM.yyyy" placeholder="dd.mm.aaaa"/>
+					                            
+					                	<Label text="Peso Bruto" labelFor="pesobruto"/>
+										<Input id="pesobruto" value="{path: 'movModel>/PesoBruto', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"
+					                            required="true"/>
+					                            
+					                    <Label text="Data/Hora - Peso Bruto" labelFor="datahorapesobruto" required="true"/>
+										<DatePicker id="datahorapesobruto" dateValue="{movModel>/DataHoraPesoBruto}"
+											displayFormat="dd.MM.yyyy" placeholder="dd.mm.aaaa"/>
+										
+										<Label text="Peso Líquido" labelFor="pesoliquido"/>
+										<Input id="pesoliquido" value="{path: 'movModel>/PesoLiquido', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"
+					                            required="true"/>
+										
+										<Label text="Peso Recebido" labelFor="pesorecebido"/>
+										<Input id="pesorecebido" value="{path: 'movModel>/PesoRecebido', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"
+					                            required="true"/>
+					                    
+					                    <core:Title/> 
+					                    <Label text="Desconto de Limpeza" labelFor="descontolimpeza"/>
+										<Input id="descontolimpeza" value="{path: 'movModel>/DescontoLimpeza', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"
+					                            required="true"/>
+					                            
+										<Label text="Desconto de Secagem" labelFor="descontosecagem"/>
+										<Input id="descontosecagem" value="{path: 'movModel>/DescontoSecagem', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"
+					                            required="true"/>
+										
+										<Label text="Descontos Diversos" labelFor="descontosdiversos"/>
+										<Input id="descontosdiversos" value="{path: 'movModel>/DescontosDiversos', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"
+					                            required="true"/>
+										
+										<Label text="Contrato de Compra" labelFor="contrato"/>
+										<Input selectedKey="{movModel>/ContratoCompra}"
+											textFormatMode="KeyValue"
+											showSuggestion="true"
+											showValueHelp="true"
+											valueHelpRequest="handleSearchContrato"
+											suggestionItems="{
+												path: '/ContratoCompras'
+											}"
+											id="contrato">
+											<suggestionItems>
+												<core:ListItem key="{Numero}" text="{Numero}"/>
+											</suggestionItems>
+										</Input>
+										
+										<Label text="Crédito Monsanto" labelFor="credito"/>
+										<Input selectedKey="{path: 'movModel>/CreditoMonsanto', type: 'sap.ui.model.odata.type.Int32'}"
+											textFormatMode="KeyValue"
+											showSuggestion="true"
+											showValueHelp="true"
+											valueHelpRequest="handleSearchCredito"
+											suggestionItems="{
+												path: '/CreditoMonsantos'
+											}"
+											id="credito">
+											<suggestionItems>
+												<core:ListItem key="{Id}" text="{Descricao}"/>
+											</suggestionItems>
+										</Input>
+										
+										<Label text="Número" labelFor="numeronotafiscal"/>
+										<Input id="numeronotafiscal" value="{movModel>/NumeroNotaFiscal}"/>
+										
+										<Label text="Chave" labelFor="chavenotafiscal"/>
+										<Input id="chavenotafiscal" value="{movModel>/ChaveNotaFiscal}"/>
+										
+										<Label text="Série" labelFor="serienotafiscal"/>
+										<Input id="serienotafiscal" value="{movModel>/SerieNotaFiscal}"/>
+										
+										<Label text="Quantidade" labelFor="quantidadenotafiscal"/>
+										<Input id="quantidadenotafiscal" value="{path: 'movModel>/QuantidadeNotaFiscal', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"/>
+					                    
+					                    <Label text="Valor unitário" labelFor="valorunitarionota"/>
+										<Input id="valorunitarionota" value="{path: 'movModel>/ValorUnitarioNotaFiscal', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"/>
+										
+										<Label text="Valor total" labelFor="valortotal"/>
+										<Input id="valortotal" value="{path: 'movModel>/ValorTotalNotaFiscal', 
+												type: 'sap.ui.model.odata.type.Single',
+					                            formatOptions:{
+					                                decimals: 2,
+					                                decimalSeparator: ','
+					                            }}"/>
+										
+										<Label text="Quadro" labelFor="quadro"/>
+										<Input id="quadro" value="{movModel>/Quadro}"/>
+										
+										<Label text="Observações" labelFor="obs"/>
+										<TextArea id="obs" value="{movModel>/Observacoes}" rows="4" cols="54"/>
+									</f:content>
+								</f:SimpleForm>
+							</VBox>
+						</content>
+					</TabContainerItem>
+					<TabContainerItem name="Classificação">
+						<content>
+							<VBox class="sapUiSmallMargin">
+								<t:Table id="tableClassificacao"
+								rows="{classModel>/}"
+								class="sapUiSizeCondensed"
+								selectionMode="Single"
+								selectionBehavior="Row"
+								enableSelectAll="false"
+								editable="true"
+								visibleRowCountMode="Auto"
+								enableBusyIndicator="true"
+								alternateRowColors="true"
+								enableCustomFilter="false">
+									<t:toolbar>
+										<Toolbar>
+											<Title text="Inserir Classificação"/>
+											<ToolbarSpacer/>
+											<Button id="addclass" icon="sap-icon://add" press="onAddClass"/>
+											<Button id="removeclass" icon="sap-icon://delete" press="onRemoveClass"/>
+										</Toolbar>
+									</t:toolbar>
+									<t:columns>
+										<t:Column>
+											<Label text="Característica" required="true" />
+											<t:template>
+												<Input selectedKey="{classModel>Caracteristica}"
+													textFormatMode="ValueKey"
+													showSuggestion="true"
+													showValueHelp="true"
+													suggest="handleSuggestCaracteristica"
+													valueHelpRequest="handleSearchCaracteristica"
+													suggestionItems="{
+														path: '/CaracteristicaQualidades',
+														sorter: {
+															path: 'Descricao'
+														},
+														templateShareable: true
+													}"
+													id="caracteristica">
+													<suggestionItems>
+														<core:ListItem key="{Codigo}" text="{Descricao}"/>
+													</suggestionItems>
+												</Input> 
+											</t:template>
+										</t:Column>
+										<t:Column>
+											<Label text="Valor"/>
+											<t:template>
+												<Input id="valor"
+													value="{
+														path: 'classModel>Valor',
+														type: 'sap.ui.model.odata.type.Single',
+														formatOptions: {
+															decimals: 2,
+															decimalSeparator: ','
+														}
+													}"/> 
+											</t:template>
+										</t:Column>
+									</t:columns>
+								</t:Table>
+							</VBox>
+						</content>
+					</TabContainerItem>
+					<TabContainerItem name="Serviço">
+						<content>
+							<VBox class="sapUiSmallMargin">
+								<t:Table id="tableServico"
+								rows="{servicoModel>/}"
+								class="sapUiSizeCondensed"
+								selectionMode="Single"
+								selectionBehavior="Row"
+								enableSelectAll="false"
+								editable="true"
+								visibleRowCountMode="Auto"
+								enableBusyIndicator="true"
+								alternateRowColors="true"
+								enableCustomFilter="false">
+									<t:toolbar>
+										<Toolbar>
+											<Title text="Inserir Serviço"/>
+											<ToolbarSpacer/>
+											<Button id="addservico" icon="sap-icon://add" press="onAddServico"/>
+											<Button id="removeservico" icon="sap-icon://delete" press="onRemoveServico"/>
+										</Toolbar>
+									</t:toolbar>
+									<t:columns>
+										<t:Column>
+											<Label text="Serviço" required="true" />
+											<t:template>
+												<Input selectedKey="{servicoModel>Servico}"
+													textFormatMode="ValueKey"
+													showSuggestion="true"
+													showValueHelp="true"
+													suggest="handleSuggestServico"
+													valueHelpRequest="handleSearchServico"
+													suggestionItems="{
+														path: '/ServicoArmazems',
+														sorter: {
+															path: 'Descricao'
+														},
+														templateShareable: true
+													}"
+													id="servico">
+													<suggestionItems>
+														<core:ListItem key="{Codigo}" text="{Descricao}"/>
+													</suggestionItems>
+												</Input> 
+											</t:template>
+										</t:Column>
+										<t:Column>
+											<Label text="Quantidade"/>
+											<t:template>
+												<Input id="quantidade"
+													value="{
+														path: 'servicoModel>Quantidade',
+														type: 'sap.ui.model.odata.type.Single',
+														formatOptions: {
+															decimals: 2,
+															decimalSeparator: ','
+														}
+													}"/> 
+											</t:template>
+										</t:Column>
+										<t:Column>
+											<Label text="Valor Unitário"/>
+											<t:template>
+												<Input id="valorunitarioservico"
+													value="{
+														path: 'servicoModel>ValorUnitario',
+														type: 'sap.ui.model.odata.type.Single',
+														formatOptions: {
+															decimals: 2,
+															decimalSeparator: ','
+														}
+													}"/> 
+											</t:template>
+										</t:Column>
+										<t:Column>
+											<Label text="Total"/>
+											<t:template>
+												<Input id="total"
+													value="{
+														path: 'servicoModel>Total',
+														type: 'sap.ui.model.odata.type.Single',
+														formatOptions: {
+															decimals: 2,
+															decimalSeparator: ','
+														}
+													}"/> 
+											</t:template>
+										</t:Column>
+									</t:columns>
+								</t:Table>
+							</VBox>
+						</content>
+					</TabContainerItem>
+				</items>
+			</TabContainer>
+		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="Salvar" type="Accept" press="onSave"/>
+				<Button text="Cancelar" type="Reject" press="onCancel"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

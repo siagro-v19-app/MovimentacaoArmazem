@@ -1,0 +1,185 @@
+<mvc:View controllerName="br.com.idxtecMovimentacaoArmazem.controller.Main"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:t="sap.ui.table">
+	<App id="app">
+		<pages>
+			<Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
+				<content>
+					<t:Table id="tableMovimentacao"
+						selectionMode="Single"
+						selectionBehavior="Row"
+						class="sapUiSizeCondensed"
+						visibleRowCountMode="Auto"
+						enableBusyIndicator="true"
+						alternateRowColors="true">
+						<t:toolbar>
+							<Toolbar>
+								<Title text="Lista de Movimentação"/>
+								<ToolbarSpacer/>
+								<SearchField placeholder="Pesquisar parceiro..." width="30%" search="filtraMov"/>
+							</Toolbar> 
+						</t:toolbar>
+						<t:columns>
+							<t:Column id="columnEmpresa" filtered="true" width="100px" >
+								<Label text="Empresa" wrapping="true"/>
+								<t:template>
+									<Text text="{Empresa}" wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="Operacao" sortProperty="Operacao" width="150px">
+								<Label text="Operação"/>
+								<t:template>
+									<Text text="{Operacao}" wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="ProdutoDetails/Descricao"
+							sortProperty="ProdutoDetails/Descricao" width="150px">
+								<Label text="Produto"/>
+								<t:template>
+									<Text text="{ProdutoDetails/Descricao}" wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column id="columnParceiro" filterProperty="LoteArmazenagemDetails/Descricao"
+								sortProperty="LoteArmazenagemDetails/Descricao" width="150px">
+								<Label text="Lote"/>
+								<t:template>
+									<Text text="{LoteArmazenagemDetails/Descricao}" wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="ParceiroNegocioDetails/RazaoSocial"
+								sortProperty="ParceiroNegocioDetails/RazaoSocial" width="250px">
+								<Label text="Parceiro"/>
+								<t:template>
+									<Text text="{ParceiroNegocioDetails/RazaoSocial}" wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="MotoristaDetails/Nome"
+								sortProperty="MotoristaDetails/Nome" width="150px">
+								<Label text="Motorista"/>
+								<t:template>
+									<Text text="{MotoristaDetails/Nome}" wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="VeiculoDetails/Placa"
+								sortProperty="VeiculoDetails/Placa" width="100px">
+								<Label text="Veículo"/>
+								<t:template>
+									<Text text="{VeiculoDetails/Placa}" wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="Tara" sortProperty="Tara" width="100px">
+								<Label text="Tara"/>
+								<t:template>
+									<Text text="{path: 'Tara',
+										type: 'sap.ui.model.odata.type.Single',
+		                            		formatOptions:{
+		                            			decimals: 2,
+		                                		decimalSeparator: ','
+		                            		}}"
+		                            		wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="Data" sortProperty="Data" width="100px">
+								<Label text="Data"/>
+								<t:template>
+									<Text text="{
+										path : 'Data',
+										type : 'sap.ui.model.type.Date',
+										formatOptions: {
+											style : 'short'
+										}}"
+										wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="PesoBruto" sortProperty="PesoBruto" width="100px">
+								<Label text="Peso Bruto" wrapping="true"/>
+								<t:template>
+									<Text text="{path: 'PesoBruto',
+										type: 'sap.ui.model.odata.type.Single',
+		                            		formatOptions:{
+		                            			decimals: 2,
+		                                		decimalSeparator: ','
+		                            		}}"
+		                            		wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="PesoLiquido" sortProperty="PesoLiquido" width="100px">
+								<Label text="Peso Líquido" wrapping="true"/>
+								<t:template>
+									<Text  text="{path: 'PesoLiquido',
+										type: 'sap.ui.model.odata.type.Single',
+		                            		formatOptions:{
+		                            			decimals: 2,
+		                                		decimalSeparator: ','
+		                            		}}"
+		                            		wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="PesoRecebido" sortProperty="PesoRecebido" width="100px">
+								<Label text="Peso Recebido" wrapping="true"/>
+								<t:template>
+									<Text  text="{path: 'PesoRecebido',
+										type: 'sap.ui.model.odata.type.Single',
+		                            		formatOptions:{
+		                            			decimals: 2,
+		                                		decimalSeparator: ','
+		                            		}}"
+		                            		wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="DescontoLimpeza" sortProperty="DescontoLimpeza" width="100px">
+								<Label text="Desconto de Limpeza" wrapping="true"/>
+								<t:template>
+									<Text  text="{path: 'DescontoLimpeza',
+										type: 'sap.ui.model.odata.type.Single',
+		                            		formatOptions:{
+		                            			decimals: 2,
+		                                		decimalSeparator: ','
+		                            		}}"
+		                            		wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="DescontoSecagem" sortProperty="DescontoSecagem" width="100px">
+								<Label text="Desconto de Secagem" wrapping="true"/>
+								<t:template>
+									<Text  text="{path: 'DescontoSecagem',
+										type: 'sap.ui.model.odata.type.Single',
+		                            		formatOptions:{
+		                            			decimals: 2,
+		                                		decimalSeparator: ','
+		                            		}}"
+		                            		wrapping="false"/>
+								</t:template>
+							</t:Column>
+							<t:Column filterProperty="DescontosDiversos" sortProperty="DescontosDiversos" width="100px">
+								<Label text="Descontos Diversos" wrapping="true"/>
+								<t:template>
+									<Text  text="{path: 'DescontosDiversos',
+										type: 'sap.ui.model.odata.type.Single',
+		                            		formatOptions:{
+		                            			decimals: 2,
+		                                		decimalSeparator: ','
+		                            		}}"
+		                            		wrapping="false"/>
+								</t:template>
+							</t:Column>
+						</t:columns>
+					</t:Table>
+				</content>
+				<footer>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button id="incluir" text="Incluir novo" press="onAdd" type="Emphasized"/>
+						<Button id="editar" text="Editar" press="onEdit"/>
+						<Button id="remover" text="Remover" press="onRemove"/>
+						<ToolbarSeparator/>
+						<Button icon="sap-icon://refresh" press="onRefresh"/>
+					</Toolbar>
+				</footer>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
