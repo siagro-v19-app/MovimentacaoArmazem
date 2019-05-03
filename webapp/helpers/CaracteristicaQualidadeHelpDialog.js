@@ -40,7 +40,7 @@ sap.ui.define([
 				var sId = oCell.getTitle();
 
 				oInput.setSelectedKey(sId);
-				debugger;
+
 			}
 			evt.getSource().getBinding("items").filter([]);
 			
